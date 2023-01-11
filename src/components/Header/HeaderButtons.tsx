@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 
 const HeaderButton = styled(Button)(({ theme }) => ({
 	fontWeight: '600',
+	color: 'white',
 	backgroundColor: theme.palette.primary.dark,
 
 	'&:hover': {
@@ -11,7 +12,7 @@ const HeaderButton = styled(Button)(({ theme }) => ({
 	},
 }));
 
-export const ButtonContainer = () => {
+export const HeaderButtons = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 

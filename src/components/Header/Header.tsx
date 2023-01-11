@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
 
-import { ButtonContainer } from './Buttons/ButtonContainer';
-import { LogoContainer } from './Logo/LogoContainer';
+import { HeaderLogo } from './HeaderLogo';
+import { HeaderButtons } from './HeaderButtons';
 
 const Wrapper = styled('header')(({ theme }) => ({
 	width: '100%',
@@ -24,11 +24,11 @@ export const Header = () => {
 		<Wrapper>
 			<Container container>
 				<Grid item xs="auto">
-					<LogoContainer />
+					<HeaderLogo />
 				</Grid>
 
 				<Grid item xs="auto">
-					<ButtonContainer />
+					<HeaderButtons />
 				</Grid>
 			</Container>
 		</Wrapper>
