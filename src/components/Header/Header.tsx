@@ -3,26 +3,23 @@ import { styled } from '@mui/system';
 
 import { HeaderLogo } from './HeaderLogo';
 import { HeaderButtons } from './HeaderButtons';
+import { Wrapper } from 'components/shared';
 
-const Wrapper = styled('header')(({ theme }) => ({
-	width: '100%',
+const Container = styled('header')(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
 }));
 
-const Container = styled(Grid)({
-	display: 'flex',
-	flexDirection: 'row',
+const HeaderWrapper = styled(Wrapper)({
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	height: '100%',
-	minHeight: '50px',
-	padding: '0 30px',
+
+	minHeight: '60px',
 });
 
 export const Header = () => {
 	return (
-		<Wrapper>
-			<Container container>
+		<Container>
+			<HeaderWrapper container>
 				<Grid item xs="auto">
 					<HeaderLogo />
 				</Grid>
@@ -30,7 +27,7 @@ export const Header = () => {
 				<Grid item xs="auto">
 					<HeaderButtons />
 				</Grid>
-			</Container>
-		</Wrapper>
+			</HeaderWrapper>
+		</Container>
 	);
 };

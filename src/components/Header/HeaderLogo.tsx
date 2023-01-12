@@ -7,22 +7,21 @@ export const HeaderLogo = () => {
 	return (
 		<Link to="/" style={{ textDecoration: 'none' }}>
 			<Grid container flexDirection="row">
-				<Grid item>
+				<Grid item height="50px">
 					<img
 						src="header-logo.png"
 						height="50px"
 						width="auto"
-						style={{ padding: '5px 0', marginBottom: '-4px' }}
 						alt="stockify logo"
 					/>
 				</Grid>
 
 				{matches && (
-					<Grid item flexDirection="column" p="2px 5px 0">
+					<Grid item flexDirection="column" pl="5px" height="50px">
 						<Grid>
 							<Typography variant="logo">Stockify</Typography>
 						</Grid>
-						<Grid>
+						<Grid mt="-4px">
 							<Typography variant="slogan">WE GOT IT</Typography>
 						</Grid>
 					</Grid>

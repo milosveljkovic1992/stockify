@@ -1,20 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Grid } from '@mui/material';
-import { styled } from '@mui/system';
-
-const HeaderButton = styled(Button)(({ theme }) => ({
-	fontWeight: '600',
-	color: 'white',
-	backgroundColor: theme.palette.primary.dark,
-
-	'&:hover': {
-		backgroundColor: theme.palette.primary.light,
-	},
-}));
+import { Grid, useTheme } from '@mui/material';
+import { DefaultButton } from 'components/shared';
 
 export const HeaderButtons = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const theme = useTheme();
 
 	const handleLoginButton = () => {
 		if (location.pathname !== '/login') {
@@ -28,26 +19,28 @@ export const HeaderButtons = () => {
 		}
 	};
 
+	const buttonStyles = {
+		fontSize: '0.875rem',
+		padding: '0.5em 1em',
+		backgroundColor: theme.palette.primary.dark,
+
+		'&:hover': {
+			backgroundColor: theme.palette.primary.light,
+		},
+	};
+
 	return (
 		<Grid container gap="15px">
 			<Grid item>
-				<HeaderButton
-					variant="contained"
-					onClick={handleLoginButton}
-					disableRipple
-				>
+				<DefaultButton onClick={handleLoginButton} sx={buttonStyles}>
 					Login
-				</HeaderButton>
+				</DefaultButton>
 			</Grid>
 
 			<Grid item>
-				<HeaderButton
-					variant="contained"
-					onClick={handleRegisterButton}
-					disableRipple
-				>
+				<DefaultButton onClick={handleRegisterButton} sx={buttonStyles}>
 					Register
-				</HeaderButton>
+				</DefaultButton>
 			</Grid>
 		</Grid>
 	);
