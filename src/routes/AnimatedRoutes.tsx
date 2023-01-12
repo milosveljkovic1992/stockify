@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-import { Homepage } from 'components';
+import { Homepage, RegisterPage } from 'components';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export const AnimatedRoutes = () => {
@@ -11,7 +11,7 @@ export const AnimatedRoutes = () => {
 				<Routes location={location}>
 					<Route path="/" element={<Homepage />} />
 					<Route path="/login" element={<h1>Login</h1>} />
-					<Route path="/register" element={<h1>Register</h1>} />
+					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/*" element={<h1>Not found</h1>} />
 				</Routes>
 			</CSSTransition>
