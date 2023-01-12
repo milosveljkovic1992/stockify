@@ -1,11 +1,11 @@
 import { Header } from 'components';
-import { AnimatedRoutes } from 'routes/AnimatedRoutes';
+import { PageRoutes } from 'routes/PageRoutes';
 
 const App = () => {
 	return (
 		<div className="App">
 			<Header />
-			<AnimatedRoutes />
+			<PageRoutes />
 		</div>
 	);
 };
