@@ -13,7 +13,7 @@ const HeaderWrapper = styled(Wrapper)({
 	justifyContent: 'space-between',
 	alignItems: 'center',
 
-	minHeight: '60px',
+	minHeight: '7vh',
 });
 
 export const Header = () => {
