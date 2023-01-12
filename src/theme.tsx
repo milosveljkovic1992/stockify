@@ -5,12 +5,14 @@ declare module '@mui/material/styles' {
 	interface TypographyVariants {
 		logo: React.CSSProperties;
 		slogan: React.CSSProperties;
+		cta: React.CSSProperties;
 	}
 
 	// allow configuration using `createTheme`
 	interface TypographyVariantsOptions {
 		logo?: React.CSSProperties;
 		slogan?: React.CSSProperties;
+		cta?: React.CSSProperties;
 	}
 }
 
@@ -19,6 +21,7 @@ declare module '@mui/material/Typography' {
 	interface TypographyPropsVariantOverrides {
 		logo: true;
 		slogan: true;
+		cta: true;
 	}
 }
 
@@ -43,6 +46,18 @@ const theme = createTheme({
 			fontWeight: 600,
 			color: 'white',
 		},
+		cta: {
+			fontSize: '1.25rem',
+			lineHeight: 1.5,
+		},
+		fontFamily: [
+			'Poppins',
+			'Roboto',
+			'-apple-system',
+			'BlinkMacSystemFont',
+			'Arial',
+			'sans-serif',
+		].join(','),
 	},
 });
 
