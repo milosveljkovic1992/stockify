@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 
+import axios from 'axios';
 import { Grid, InputAdornment } from '@mui/material';
 import { Mail, AccountBox } from '@mui/icons-material';
 
@@ -22,12 +23,7 @@ export const RegisterForm = () => {
 		passwordInputRef.current.value = '';
 	};
 
-	const validateEmail = (input: string) => {
-		const emailRegex = new RegExp(/^[A-Z0-9_.%+-]+@[A-Z0-9.-]+[.][A-Z]+$/gi);
-		return emailRegex.test(input);
-	};
-
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const username = usernameInputRef.current?.value.trim() as string;
 		const email = emailInputRef.current?.value.trim() as string;
 		const password = passwordInputRef.current?.value.trim() as string;
@@ -37,16 +33,20 @@ export const RegisterForm = () => {
 			throw new Error('Please fill out all fields');
 		}
 
-		const isEmailValid = validateEmail(email);
-
-		if (!isEmailValid) {
-			throw new Error('Email is invalid');
+		try {
+			const { data } = await axios.post('http://localhost:5000/auth/signup', {
+				username,
+				email,
+				password,
+			});
+			// save user details to global state
+			document.cookie = `_uid=${data._id}; path=/; max-age=${60 * 60 * 24}`;
+			resetInputs();
+			window.location.href = '/dashboard';
+		} catch (error) {
+			//handle error
+			console.log(error);
 		}
-
-		console.log(username, email, password);
-		// submit info
-
-		resetInputs();
 	};
 
 	useEffect(() => {
