@@ -32,6 +32,12 @@ const theme = createTheme({
 			main: '#07ebe3',
 			dark: '#13d6ce',
 		},
+		secondary: {
+			main: '#4B4E6D',
+		},
+		info: {
+			main: '#EF476F',
+		},
 	},
 	typography: {
 		logo: {
