@@ -1,5 +1,7 @@
 import { Header } from 'components';
 import { PageRoutes } from 'routes/PageRoutes';
+import './axios/global';
+import './axios/interceptors';
 
 const App = () => {
 	return (
