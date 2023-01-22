@@ -1,14 +1,20 @@
 import { useRef, useEffect } from 'react';
 
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import { Grid, InputAdornment } from '@mui/material';
 import { Mail, AccountBox } from '@mui/icons-material';
 
+import { useAppDispatch } from 'store';
+import { setUserDetails } from 'store/user-slice';
 import { DefaultButton } from 'components/shared';
 import { TextInputWithIcon } from './TextInputWithIcon';
 import { PasswordInputWithIcon } from './PasswordInputWithIcon';
 
 export const RegisterForm = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
 	const usernameInputRef = useRef<HTMLInputElement>(null);
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -34,15 +40,16 @@ export const RegisterForm = () => {
 		}
 
 		try {
-			const { data } = await axios.post('http://localhost:5000/auth/signup', {
+			const { data } = await axios.post('/auth/register', {
 				username,
 				email,
 				password,
 			});
-			// save user details to global state
+
+			dispatch(setUserDetails(data));
 			document.cookie = `_uid=${data._id}; path=/; max-age=${60 * 60 * 24}`;
 			resetInputs();
-			window.location.href = '/dashboard';
+			navigate('/dashboard');
 		} catch (error) {
 			//handle error
 			console.log(error);
