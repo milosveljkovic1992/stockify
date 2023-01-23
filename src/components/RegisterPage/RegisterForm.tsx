@@ -7,9 +7,11 @@ import { Mail, AccountBox } from '@mui/icons-material';
 
 import { useAppDispatch } from 'store';
 import { setUserDetails } from 'store/user-slice';
-import { DefaultButton } from 'components/shared';
-import { TextInputWithIcon } from './TextInputWithIcon';
-import { PasswordInputWithIcon } from './PasswordInputWithIcon';
+import {
+	DefaultButton,
+	PasswordInputWithIcon,
+	TextInputWithIcon,
+} from 'components/shared';
 
 export const RegisterForm = () => {
 	const dispatch = useAppDispatch();
@@ -19,23 +21,12 @@ export const RegisterForm = () => {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
-	const resetInputs = () => {
-		if (!usernameInputRef.current) return;
-		if (!emailInputRef.current) return;
-		if (!passwordInputRef.current) return;
-
-		usernameInputRef.current.value = '';
-		emailInputRef.current.value = '';
-		passwordInputRef.current.value = '';
-	};
-
 	const handleSubmit = async () => {
 		const username = usernameInputRef.current?.value.trim() as string;
 		const email = emailInputRef.current?.value.trim() as string;
 		const password = passwordInputRef.current?.value.trim() as string;
 
 		if (!username || !email || !password) {
-			resetInputs();
 			throw new Error('Please fill out all fields');
 		}
 
@@ -46,14 +37,24 @@ export const RegisterForm = () => {
 				password,
 			});
 
-			dispatch(setUserDetails(data));
 			document.cookie = `_uid=${data._id}; path=/; max-age=${60 * 60 * 24}`;
+			dispatch(setUserDetails(data));
 			resetInputs();
 			navigate('/dashboard');
 		} catch (error) {
 			//handle error
 			console.log(error);
 		}
+	};
+
+	const resetInputs = () => {
+		if (!usernameInputRef.current) return;
+		if (!emailInputRef.current) return;
+		if (!passwordInputRef.current) return;
+
+		usernameInputRef.current.value = '';
+		emailInputRef.current.value = '';
+		passwordInputRef.current.value = '';
 	};
 
 	useEffect(() => {
