@@ -7,7 +7,7 @@ const Container = styled('section')({
 	flexDirection: 'column',
 	alignItems: 'center',
 
-	width: '900%',
+	width: '90%',
 	maxWidth: '960px',
 	height: '100%',
 	minHeight: '60vh',

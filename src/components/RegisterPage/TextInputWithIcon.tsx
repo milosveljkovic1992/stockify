@@ -14,7 +14,11 @@ export const TextInputWithIcon = forwardRef<
 	TextInputWithIconProps
 >(({ id, label, type = 'text', children }, ref) => {
 	return (
-		<FormControl fullWidth sx={{ m: 1, width: '40ch' }} color="secondary">
+		<FormControl
+			fullWidth
+			sx={{ m: 1, maxWidth: '95%', width: '40ch' }}
+			color="secondary"
+		>
 			<InputLabel htmlFor={id}>{label}</InputLabel>
 
 			<OutlinedInput
