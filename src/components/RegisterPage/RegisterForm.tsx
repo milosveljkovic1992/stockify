@@ -61,7 +61,7 @@ export const RegisterForm = () => {
 	}, []);
 
 	return (
-		<Grid alignItems="center">
+		<Grid alignItems="center" maxWidth="90%">
 			<form onSubmit={handleSubmit}>
 				<div>
 					<TextInputWithIcon

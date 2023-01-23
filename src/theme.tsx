@@ -67,6 +67,14 @@ const theme = createTheme({
 	},
 });
 
+theme.typography.h2 = {
+	fontSize: '3.75rem',
+	fontWeight: 400,
+	[theme.breakpoints.down('md')]: {
+		fontSize: '3rem',
+	},
+};
+
 export const Theme = ({ children }: { children: ReactNode }) => {
 	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };

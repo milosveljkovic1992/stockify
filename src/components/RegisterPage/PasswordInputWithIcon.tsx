@@ -28,7 +28,10 @@ export const PasswordInputWithIcon = forwardRef<
 	};
 
 	return (
-		<FormControl sx={{ m: 1, width: '40ch' }} color="secondary">
+		<FormControl
+			sx={{ m: 1, maxWidth: '95%', width: '40ch' }}
+			color="secondary"
+		>
 			<InputLabel htmlFor={id}>Password</InputLabel>
 
 			<OutlinedInput
