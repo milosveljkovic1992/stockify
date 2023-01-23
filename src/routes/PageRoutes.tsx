@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Homepage, RegisterPage } from 'components';
+import { Homepage, LoginPage, RegisterPage } from 'components';
 
 export const PageRoutes = () => {
 	const cookies = document.cookie.split(';');
@@ -9,7 +9,7 @@ export const PageRoutes = () => {
 	return (
 		<Routes location={location}>
 			<Route path="/" element={<Homepage />} />
-			<Route path="/login" element={<h1>Login</h1>} />
+			<Route path="/login" element={<LoginPage />} />
 			<Route path="/register" element={<RegisterPage />} />
 			<Route
 				path="/dashboard"
