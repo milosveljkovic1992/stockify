@@ -1,12 +1,11 @@
 import { useRef, useEffect } from 'react';
 
-import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Grid, InputAdornment } from '@mui/material';
 import { AccountBox } from '@mui/icons-material';
 
 import { useAppDispatch } from 'store';
-import { setUserDetails } from 'store/user-slice';
+import { loginUser } from 'store/user-slice';
 import {
 	DefaultButton,
 	PasswordInputWithIcon,
@@ -26,20 +25,9 @@ export const LoginForm = () => {
 
 		if (!username || !password) throw new Error('Please fill out all fields');
 
-		try {
-			const { data } = await axios.post('/auth/login', {
-				username,
-				password,
-			});
-
-			document.cookie = `_uid=${data._id}; path=/; max-age=${60 * 60 * 24}`;
-			dispatch(setUserDetails(data));
-			resetInputs();
-			navigate('/dashboard');
-		} catch (error) {
-			//handle error
-			console.log(error);
-		}
+		dispatch(loginUser({ username, password }));
+		resetInputs();
+		navigate('/dashboard');
 	};
 
 	const resetInputs = () => {
