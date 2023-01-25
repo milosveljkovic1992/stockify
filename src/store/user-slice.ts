@@ -55,19 +55,6 @@ export const loginUser = createAsyncThunk(
 	},
 );
 
-export const autoLogin = createAsyncThunk(
-	'/user/reauth',
-	async (_id: string, thunkAPI) => {
-		try {
-			const { data } = await axios.post<User>('/auth/reauth', { _id });
-			saveUIDtoCookies(data._id);
-			return data;
-		} catch (error) {
-			return thunkAPI.rejectWithValue('');
-		}
-	},
-);
-
 export const logout = createAsyncThunk('/user/logout', async (_, thunkAPI) => {
 	try {
 		await axios.get('/auth/logout');
@@ -140,22 +127,6 @@ const userSlice = createSlice({
 			},
 		);
 		builder.addCase(registerUser.rejected, (state) => {
-			state.isLoading = false;
-			state.isLoggedIn = false;
-		});
-		builder.addCase(autoLogin.pending, (state) => {
-			state.isLoading = true;
-			state.isLoggedIn = false;
-		});
-		builder.addCase(
-			autoLogin.fulfilled,
-			(state, action: PayloadAction<User>) => {
-				state.isLoading = false;
-				state.isLoggedIn = true;
-				state.userDetails = action.payload;
-			},
-		);
-		builder.addCase(autoLogin.rejected, (state) => {
 			state.isLoading = false;
 			state.isLoggedIn = false;
 		});
