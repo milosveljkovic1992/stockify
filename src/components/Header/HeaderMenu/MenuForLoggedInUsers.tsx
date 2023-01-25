@@ -13,6 +13,8 @@ import {
 import { Logout } from '@mui/icons-material';
 import { styled } from '@mui/system';
 
+import { logoutUser } from 'store/user-slice';
+import { useAppDispatch } from 'store';
 import { HeaderMenuItem } from './HeaderMenuItem';
 
 const StyledBox = styled(Box)({
@@ -30,6 +32,7 @@ const StyledAvatar = styled(Avatar)({
 });
 
 export const MenuForLoggedInUsers = () => {
+	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -38,6 +41,10 @@ export const MenuForLoggedInUsers = () => {
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+	const handleLogout = async () => {
+		handleClose();
+		await dispatch(logoutUser());
 	};
 
 	return (
@@ -71,6 +78,7 @@ export const MenuForLoggedInUsers = () => {
 						overflow: 'visible',
 						filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
 						mt: 1.5,
+						width: 250,
 						'& .MuiAvatar-root': {
 							width: 36,
 							height: 36,
@@ -94,7 +102,7 @@ export const MenuForLoggedInUsers = () => {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<MenuItem onClick={handleClose}>
+				<MenuItem onClick={handleLogout}>
 					<ListItemIcon>
 						<Logout fontSize="small" />
 					</ListItemIcon>
