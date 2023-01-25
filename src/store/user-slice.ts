@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { saveUIDtoCookies } from 'utils/saveUIDtoCookies';
+import { removeUIDfromCookies } from 'utils/removeUIDfromCookies';
 
-type User = {
+export type User = {
 	username: string;
 	email: string;
 	role: string;
@@ -54,22 +55,13 @@ export const loginUser = createAsyncThunk(
 	},
 );
 
-export const autoLogin = createAsyncThunk(
-	'/user/reauth',
-	async (_id: string, thunkAPI) => {
+export const logoutUser = createAsyncThunk(
+	'/user/logoutUser',
+	async (_, thunkAPI) => {
 		try {
-			const source = axios.CancelToken.source();
-			thunkAPI.signal.addEventListener('abort', () => {
-				source.cancel();
-			});
-
-			const { data } = await axios.post<User>(
-				'/auth/reauth',
-				{ _id },
-				{ cancelToken: source.token },
-			);
-			saveUIDtoCookies(data._id);
-			return data;
+			await axios.get('/auth/logout');
+			removeUIDfromCookies();
+			return;
 		} catch (error) {
 			return thunkAPI.rejectWithValue('');
 		}
@@ -78,11 +70,13 @@ export const autoLogin = createAsyncThunk(
 
 interface InitialState {
 	isLoading: boolean;
+	isLoggedIn: boolean;
 	userDetails: User;
 }
 
 const initialState: InitialState = {
-	isLoading: false,
+	isLoading: true,
+	isLoggedIn: true,
 	userDetails: {
 		username: '',
 		email: '',
@@ -97,54 +91,64 @@ const userSlice = createSlice({
 	reducers: {
 		setUserDetails(state, action: PayloadAction<User>) {
 			state.userDetails = action.payload;
+			state.isLoggedIn = true;
+			state.isLoading = false;
 		},
-		clearUserDetails(state) {
+		setUserIsUnauthenticated(state) {
+			state.isLoading = false;
+			state.isLoggedIn = false;
 			state.userDetails = initialState.userDetails;
 		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loginUser.pending, (state) => {
 			state.isLoading = false;
+			state.isLoggedIn = false;
 		});
 		builder.addCase(
 			loginUser.fulfilled,
 			(state, action: PayloadAction<User>) => {
 				state.isLoading = false;
+				state.isLoggedIn = true;
 				state.userDetails = action.payload;
 			},
 		);
 		builder.addCase(loginUser.rejected, (state) => {
 			state.isLoading = false;
+			state.isLoggedIn = false;
 		});
 		builder.addCase(registerUser.pending, (state) => {
 			state.isLoading = true;
+			state.isLoggedIn = false;
 		});
 		builder.addCase(
 			registerUser.fulfilled,
 			(state, action: PayloadAction<User>) => {
 				state.isLoading = false;
+				state.isLoggedIn = true;
 				state.userDetails = action.payload;
 			},
 		);
 		builder.addCase(registerUser.rejected, (state) => {
 			state.isLoading = false;
+			state.isLoggedIn = false;
 		});
-		builder.addCase(autoLogin.pending, (state) => {
+		builder.addCase(logoutUser.pending, (state) => {
 			state.isLoading = true;
+			state.isLoggedIn = true;
 		});
-		builder.addCase(
-			autoLogin.fulfilled,
-			(state, action: PayloadAction<User>) => {
-				state.isLoading = false;
-				state.userDetails = action.payload;
-			},
-		);
-		builder.addCase(autoLogin.rejected, (state) => {
+		builder.addCase(logoutUser.fulfilled, (state) => {
 			state.isLoading = false;
+			state.isLoggedIn = false;
+			state.userDetails = initialState.userDetails;
+		});
+		builder.addCase(logoutUser.rejected, (state) => {
+			state.isLoading = false;
+			state.isLoggedIn = true;
 		});
 	},
 });
 
-export const { setUserDetails } = userSlice.actions;
+export const { setUserDetails, setUserIsUnauthenticated } = userSlice.actions;
 
 export default userSlice;
