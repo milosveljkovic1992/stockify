@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMediaQuery, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 const LogoContainer = styled(Grid)({
 	cursor: 'pointer',
@@ -11,10 +13,14 @@ export const HeaderLogo = () => {
 	const matches = useMediaQuery('(min-width: 600px)');
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
 	const handleClick = () => {
-		if (location.pathname !== '/') {
+		if (!isLoggedIn && location.pathname !== '/') {
 			navigate('/');
+		}
+		if (isLoggedIn && location.pathname !== '/dashboard') {
+			navigate('/dashboard');
 		}
 	};
 
