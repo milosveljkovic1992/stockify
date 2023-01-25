@@ -55,15 +55,18 @@ export const loginUser = createAsyncThunk(
 	},
 );
 
-export const logout = createAsyncThunk('/user/logout', async (_, thunkAPI) => {
-	try {
-		await axios.get('/auth/logout');
-		removeUIDfromCookies();
-		return;
-	} catch (error) {
-		return thunkAPI.rejectWithValue('');
-	}
-});
+export const logoutUser = createAsyncThunk(
+	'/user/logoutUser',
+	async (_, thunkAPI) => {
+		try {
+			await axios.get('/auth/logout');
+			removeUIDfromCookies();
+			return;
+		} catch (error) {
+			return thunkAPI.rejectWithValue('');
+		}
+	},
+);
 
 interface InitialState {
 	isLoading: boolean;
@@ -130,16 +133,16 @@ const userSlice = createSlice({
 			state.isLoading = false;
 			state.isLoggedIn = false;
 		});
-		builder.addCase(logout.pending, (state) => {
+		builder.addCase(logoutUser.pending, (state) => {
 			state.isLoading = true;
 			state.isLoggedIn = true;
 		});
-		builder.addCase(logout.fulfilled, (state) => {
+		builder.addCase(logoutUser.fulfilled, (state) => {
 			state.isLoading = false;
 			state.isLoggedIn = false;
 			state.userDetails = initialState.userDetails;
 		});
-		builder.addCase(logout.rejected, (state) => {
+		builder.addCase(logoutUser.rejected, (state) => {
 			state.isLoading = false;
 			state.isLoggedIn = true;
 		});
