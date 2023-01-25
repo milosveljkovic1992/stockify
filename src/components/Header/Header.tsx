@@ -1,9 +1,13 @@
 import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
+import { useSelector } from 'react-redux';
 
 import { HeaderLogo } from './HeaderLogo';
-import { HeaderButtons } from './HeaderButtons';
+import { MenuForLoggedInUsers } from './HeaderMenu/MenuForLoggedInUsers';
+import { MenuForLoggedOutUsers } from './HeaderMenu/MenuForLoggedOutUsers';
 import { Wrapper } from 'components/shared';
+
+import type { RootState } from 'store';
 
 const Container = styled('header')(({ theme }) => ({
 	backgroundColor: theme.palette.primary.main,
@@ -17,6 +21,8 @@ const HeaderWrapper = styled(Wrapper)({
 });
 
 export const Header = () => {
+	const { isLoggedIn } = useSelector((state: RootState) => state.user);
+
 	return (
 		<Container>
 			<HeaderWrapper container>
@@ -25,7 +31,7 @@ export const Header = () => {
 				</Grid>
 
 				<Grid item xs="auto">
-					<HeaderButtons />
+					{isLoggedIn ? <MenuForLoggedInUsers /> : <MenuForLoggedOutUsers />}
 				</Grid>
 			</HeaderWrapper>
 		</Container>

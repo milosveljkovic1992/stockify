@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Grid, useTheme } from '@mui/material';
+
 import { DefaultButton } from 'components/shared';
 
-export const HeaderButtons = () => {
+export const MenuForLoggedOutUsers = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const theme = useTheme();
