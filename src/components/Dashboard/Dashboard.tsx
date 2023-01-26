@@ -1,4 +1,5 @@
 import { styled } from '@mui/system';
+import { SidebarMenu } from './SidebarMenu/SidebarMenu';
 
 const Container = styled('div')({
 	width: '100%',
@@ -16,6 +17,7 @@ const Container = styled('div')({
 export const Dashboard = () => {
 	return (
 		<div>
+			<SidebarMenu />
 			<Container>
 				<h1>Aside</h1>
 				<h1>Body</h1>
