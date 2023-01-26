@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
-import { Homepage, LoginPage, RegisterPage } from 'components';
+import { Dashboard, Homepage, LoginPage, RegisterPage } from 'components';
 
 export const PageRoutes = () => {
 	const { isLoggedIn } = useSelector((state: RootState) => state.user);
@@ -42,11 +42,7 @@ export const PageRoutes = () => {
 			<Route
 				path="/dashboard"
 				element={
-					isLoggedIn ? (
-						<h1>Dashboard</h1>
-					) : (
-						<Navigate to="/login" replace={true} />
-					)
+					isLoggedIn ? <Dashboard /> : <Navigate to="/login" replace={true} />
 				}
 			/>
 			<Route path="/*" element={<h1>Not found</h1>} />
