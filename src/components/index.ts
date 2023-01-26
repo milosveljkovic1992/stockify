@@ -1,3 +1,4 @@
+export { Dashboard } from './Dashboard/Dashboard';
 export { Header } from './Header/Header';
 export { Homepage } from './Homepage/Homepage';
 export { LoginPage } from './LoginPage/LoginPage';
