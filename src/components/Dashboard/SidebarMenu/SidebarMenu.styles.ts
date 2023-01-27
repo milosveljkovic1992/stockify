@@ -5,12 +5,12 @@ interface ToggleProps {
 	open: boolean;
 }
 
-export const Container = styled(Box, {
+export const Container = styled('aside', {
 	shouldForwardProp: (prop) => prop !== 'open',
 })<ToggleProps>(({ open }) => ({
 	position: 'absolute',
 	height: '100%',
-	width: '250px',
+	width: '251px',
 	transform: open ? 'translateX(0)' : 'translateX(-200px)',
 
 	display: 'flex',
@@ -21,6 +21,8 @@ export const Container = styled(Box, {
 	padding: '5px',
 	paddingRight: open ? '5px' : '0',
 	backgroundColor: 'whitesmoke',
+	borderRight: '1px solid rgba(0, 0, 0, 0.1)',
+	boxShadow: '3px 0 7px rgba(0, 0, 0, .1)',
 	transition: '0.2s ease-in-out',
 }));
 
