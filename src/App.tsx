@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState, useAppDispatch } from 'store';
-import { setUserIsUnauthenticated } from 'store/user-slice';
 
 import { Header } from 'components';
 import { PageRoutes } from 'routes/PageRoutes';
@@ -20,12 +19,8 @@ const App = () => {
 
 	useEffect(() => {
 		const controller = new AbortController();
+		preAuthenticate(_id, controller, dispatch);
 
-		if (!_id) {
-			dispatch(setUserIsUnauthenticated());
-		} else {
-			preAuthenticate(_id, controller, dispatch);
-		}
 		return () => controller.abort();
 	}, []);
 
