@@ -28,7 +28,7 @@ export const HeaderLogo = () => {
 		<LogoContainer container flexDirection="row" onClick={handleClick}>
 			<Grid item height="50px">
 				<img
-					src="header-logo.png"
+					src="	http://localhost:3000/header-logo.png"
 					height="50px"
 					width="auto"
 					alt="stockify logo"
