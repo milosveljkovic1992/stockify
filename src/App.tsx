@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
+import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { RootState, useAppDispatch } from 'store';
 
 import { Header } from 'components';
-import { PageRoutes } from 'routes/PageRoutes';
 import { getUIDfromCookies } from 'utils/getUIDfromCookies';
 import { preAuthenticate } from 'utils/preAuthenticate';
 
@@ -29,7 +29,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header />
-			<PageRoutes />
+			<Outlet />
 		</div>
 	);
 };
