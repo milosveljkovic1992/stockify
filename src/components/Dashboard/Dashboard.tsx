@@ -1,27 +1,33 @@
 import { styled } from '@mui/system';
+import { Outlet } from 'react-router-dom';
 import { SidebarMenu } from './SidebarMenu/SidebarMenu';
 
-const Container = styled('div')({
+const Container = styled('main')({
+	position: 'relative',
+	width: '100%',
+});
+
+const Content = styled('section')({
 	width: '100%',
 	height: '100%',
 	minHeight: '93vh',
 
-	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
+	display: 'grid',
+	gridTemplateColumns: '1fr',
+	gridTemplateRows: 'auto 1fr',
 
-	paddingLeft: '50px',
-	backgroundColor: 'purple',
+	paddingLeft: '70px',
+	paddingTop: '5px',
+	backgroundColor: 'whitesmoke',
 });
 
 export const Dashboard = () => {
 	return (
-		<div>
+		<Container>
 			<SidebarMenu />
-			<Container>
-				<h1>Aside</h1>
-				<h1>Body</h1>
-			</Container>
-		</div>
+			<Content>
+				<Outlet />
+			</Content>
+		</Container>
 	);
 };

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 import { Dashboard, Homepage, LoginPage, RegisterPage } from 'components';
+import { Warehouse } from 'components/Dashboard/Warehouse/Warehouse';
 
 export const PageRoutes = () => {
 	const { isLoggedIn } = useSelector((state: RootState) => state.user);
@@ -44,7 +45,14 @@ export const PageRoutes = () => {
 				element={
 					isLoggedIn ? <Dashboard /> : <Navigate to="/login" replace={true} />
 				}
-			/>
+				loader={() =>
+					fetch('http://localhost.com:3000')
+						.then(() => 'result')
+						.catch((error) => error)
+				}
+			>
+				<Route path="warehouse" element={<Warehouse />} />
+			</Route>
 			<Route path="/*" element={<h1>Not found</h1>} />
 		</Routes>
 	);
