@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'store';
 
 import { Header } from 'components';
-import { getUIDfromCookies } from 'utils/getUIDfromCookies';
 import { preAuthenticate } from 'utils/preAuthenticate';
 
 import './axios/global';
@@ -15,11 +14,10 @@ import './axios/interceptors';
 const App = () => {
 	const dispatch = useAppDispatch();
 	const { isLoading } = useSelector((state: RootState) => state.user);
-	const _id = getUIDfromCookies();
 
 	useEffect(() => {
 		const controller = new AbortController();
-		preAuthenticate(_id, controller, dispatch);
+		preAuthenticate(controller, dispatch);
 
 		return () => controller.abort();
 	}, []);

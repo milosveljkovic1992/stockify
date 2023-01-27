@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { saveUIDtoCookies } from 'utils/saveUIDtoCookies';
+import { getUIDfromCookies } from './getUIDfromCookies';
+import { saveUIDtoCookies } from './saveUIDtoCookies';
 
 import {
 	logoutUser,
@@ -11,10 +12,11 @@ import type { AppDispatch } from 'store';
 import type { User } from 'store/user-slice';
 
 export const preAuthenticate = async (
-	_id: string,
 	controller: AbortController,
 	dispatch: AppDispatch,
 ) => {
+	const _id = getUIDfromCookies();
+
 	if (!_id) {
 		dispatch(setUserIsUnauthenticated());
 	} else {
