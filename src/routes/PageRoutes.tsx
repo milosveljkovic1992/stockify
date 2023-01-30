@@ -5,7 +5,7 @@ import { UnauthenticatedRoutes } from './UnauthenticatedRoutes';
 
 import App from 'App';
 import { Dashboard, Homepage, LoginPage, RegisterPage } from 'components';
-import { Warehouse } from 'components/Dashboard/Warehouse/Warehouse';
+import { Board } from 'components/Dashboard/Board/Board';
 
 export const router = createBrowserRouter([
 	{
@@ -39,8 +39,8 @@ export const router = createBrowserRouter([
 						element: <Dashboard />,
 						children: [
 							{
-								path: 'warehouse',
-								element: <Warehouse />,
+								path: 'board',
+								element: <Board />,
 							},
 						],
 					},
