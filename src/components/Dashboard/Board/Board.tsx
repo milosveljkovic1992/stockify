@@ -1,3 +1,4 @@
+import { Freight } from './Freight/Freight';
 import { SectionTitle } from 'components/shared';
 
 export const Board = () => {
@@ -5,7 +6,7 @@ export const Board = () => {
 		<>
 			<SectionTitle>Board</SectionTitle>
 			<div style={{ backgroundColor: 'lightblue' }}>
-				<h1>Board</h1>
+				<Freight />
 			</div>
 		</>
 	);
