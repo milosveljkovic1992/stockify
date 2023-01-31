@@ -12,6 +12,7 @@ export const Container = styled('aside', {
 	height: '100%',
 	width: '251px',
 	transform: open ? 'translateX(0)' : 'translateX(-200px)',
+	'z-index': 3,
 
 	display: 'flex',
 	flexDirection: 'column',
