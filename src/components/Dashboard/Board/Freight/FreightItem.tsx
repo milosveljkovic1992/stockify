@@ -1,6 +1,6 @@
 import { TableCell } from '@mui/material';
 
-import { FreightType } from './FreightItem.types';
+import { FreightType } from './Freight.types';
 
 interface FreightItemProps {
 	currentTime: Date;

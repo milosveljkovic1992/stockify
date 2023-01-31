@@ -24,3 +24,13 @@ export type FreightType = {
 	contact: string;
 	comments: string[] | never[];
 };
+
+export type SortFreightType =
+	| 'postTime'
+	| 'freightID'
+	| 'origin'
+	| 'destination'
+	| 'distance'
+	| 'sender'
+	| 'weight'
+	| 'length';
