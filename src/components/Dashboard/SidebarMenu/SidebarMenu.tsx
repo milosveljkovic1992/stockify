@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useMediaQuery } from '@mui/material';
+
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	ChevronLeft,
 	EventNote,
@@ -10,10 +11,13 @@ import {
 	PriceChange,
 	ViewInAr,
 } from '@mui/icons-material';
+import { useMediaQuery } from '@mui/material';
 
 import { Container, Divider, SidebarOption } from './SidebarMenu.styles';
 
 export const SidebarMenu = () => {
+	const location = useLocation();
+	const navigate = useNavigate();
 	const matches = useMediaQuery('(min-width: 480px)');
 	const [open, setOpen] = useState(false);
 
@@ -23,6 +27,11 @@ export const SidebarMenu = () => {
 
 	const handleDrawerClose = () => {
 		matches && setOpen(false);
+	};
+
+	const handleNavigateBoard = () => {
+		if (location.pathname !== '/dashboard/board') navigate('/dashboard/board');
+		setOpen(false);
 	};
 
 	return (
@@ -42,12 +51,12 @@ export const SidebarMenu = () => {
 
 			<Divider />
 
-			<SidebarOption>
-				<ViewInAr className="sidebar-menu-icon" />
-				<p>Option title</p>
+			<SidebarOption onClick={handleNavigateBoard}>
+				<EventNote className="sidebar-menu-icon" />
+				<p>Board</p>
 			</SidebarOption>
 			<SidebarOption>
-				<EventNote className="sidebar-menu-icon" />
+				<ViewInAr className="sidebar-menu-icon" />
 				<p>Option title</p>
 			</SidebarOption>
 			<SidebarOption>
