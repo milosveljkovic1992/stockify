@@ -1,11 +1,11 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import { freights } from 'data';
 
 import { calculateTimePassed } from 'utils/calculateTimePassed';
 import { FreightItem } from './FreightItem';
-import { Container, FreightGridItem, FreightGridRow } from './Freight.styles';
+import { FreightGridItem, FreightGridRow } from './Freight.styles';
 import type { FreightType, SortFreightType } from './Freight.types';
 
 export const Freight = () => {
@@ -53,85 +53,89 @@ export const Freight = () => {
 	}, []);
 
 	return (
-		<>
-			<h1>Freight</h1>
-			<Container>
-				<Grid container>
-					<FreightGridRow item container className="freight-table-header">
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('postTime')}
-						>
-							Posted
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('freightID')}
-						>
-							ID
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('origin')}
-						>
-							From
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('destination')}
-						>
-							To
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('distance')}
-						>
-							Dist
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('sender')}
-						>
-							Sender
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('weight')}
-						>
-							Weight
-						</FreightGridItem>
-						<FreightGridItem
-							item
-							className="freight-table-header__sort-item"
-							onClick={() => handleSort('length')}
-						>
-							Length
-						</FreightGridItem>
-					</FreightGridRow>
+		<Box sx={{ width: '100%', overflow: 'hidden' }}>
+			<Typography component="h2" variant="h4">
+				Results
+			</Typography>
+			<Box sx={{ overflow: 'auto' }}>
+				<Paper sx={{ minWidth: '845px' }}>
+					<Grid container>
+						<FreightGridRow item container className="freight-table-header">
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('postTime')}
+							>
+								Posted
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('freightID')}
+							>
+								ID
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('origin')}
+							>
+								From
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('destination')}
+							>
+								To
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('distance')}
+							>
+								Dist
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('sender')}
+							>
+								Sender
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('weight')}
+							>
+								Weight
+							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('length')}
+							>
+								Length
+							</FreightGridItem>
+						</FreightGridRow>
 
-					{freightList.map((freight: FreightType) => {
-						const { hours, minutes } = calculateTimePassed(
-							freight.postTime,
-							currentTime,
-						);
-						return (
-							<FreightItem
-								key={freight.freightID}
-								hours={hours}
-								minutes={minutes}
-								freight={freight}
-							/>
-						);
-					})}
-				</Grid>
-			</Container>
-		</>
+						{freightList.map((freight: FreightType) => {
+							const { hours, minutes } = calculateTimePassed(
+								freight.postTime,
+								currentTime,
+							);
+							return (
+								<FreightItem
+									key={freight.freightID}
+									hours={hours}
+									minutes={minutes}
+									freight={freight}
+								/>
+							);
+						})}
+					</Grid>
+				</Paper>
+			</Box>
+		</Box>
 	);
 };

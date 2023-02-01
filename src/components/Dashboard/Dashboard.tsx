@@ -5,19 +5,18 @@ import { SidebarMenu } from './SidebarMenu/SidebarMenu';
 const Container = styled('main')({
 	position: 'relative',
 	width: '100%',
+	display: 'flex',
 });
 
 const Content = styled('section')({
 	width: '100%',
 	height: '100%',
-	minHeight: '93vh',
 
 	display: 'grid',
 	gridTemplateColumns: '1fr',
 	gridTemplateRows: 'auto 1fr',
 
-	paddingLeft: '70px',
-	paddingTop: '5px',
+	padding: '5px 20px',
 	backgroundColor: 'whitesmoke',
 });
 

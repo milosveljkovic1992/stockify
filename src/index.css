@@ -3,11 +3,12 @@
 }
 
 body {
-	overflow: hidden;
+	overflow-x: hidden;
+	max-width: 100%;
 	margin: 0;
+	background-color: whitesmoke;
 	font-family: 'Poppins', 'Roboto', '-apple-system', 'BlinkMacSystemFont',
 		'Arial', 'sans-serif';
-	background-color: whitesmoke;
 }
 .slide-enter,
 .slide-exit {
