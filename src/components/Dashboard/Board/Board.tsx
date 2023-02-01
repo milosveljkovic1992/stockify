@@ -5,7 +5,7 @@ export const Board = () => {
 	return (
 		<>
 			<SectionTitle>Board</SectionTitle>
-			<div style={{ backgroundColor: 'lightblue' }}>
+			<div style={{ backgroundColor: 'lightblue', overflow: 'auto' }}>
 				<Freight />
 			</div>
 		</>

@@ -1,54 +1,33 @@
-import { TableCell } from '@mui/material';
-
-import { FreightType } from './Freight.types';
+import { parseAsClock } from 'utils/parseAsClock';
+import { FreightGridItem, FreightGridRow } from './Freight.styles';
+import type { FreightType } from './Freight.types';
 
 interface FreightItemProps {
-	currentTime: Date;
+	hours: number;
+	minutes: number;
 	freight: FreightType;
 }
 
-export const FreightItem = ({ currentTime, freight }: FreightItemProps) => {
-	const calculateTimePassed = (time: Date, currentTime: Date) => {
-		const secondsDiff = (currentTime.getTime() - time.getTime()) / 1000;
-		const secondsPassed = Math.floor(secondsDiff) % 60;
-		const minutesPassed = Math.floor((secondsDiff % 3600) / 60);
-		const hoursPassed = Math.floor(secondsDiff / 3600);
-
-		return {
-			hours: hoursPassed,
-			minutes: minutesPassed,
-			seconds: secondsPassed,
-		};
-	};
-
-	const parseNumberAsClock = (time: number) => {
-		return time < 10 ? `0${time.toString()}` : time.toString();
-	};
-
-	const { hours, minutes } = calculateTimePassed(freight.postTime, currentTime);
-	const time = `${parseNumberAsClock(hours)}:${parseNumberAsClock(minutes)}`;
+export const FreightItem = ({ hours, minutes, freight }: FreightItemProps) => {
+	const time = `${parseAsClock(hours)}:${parseAsClock(minutes)}`;
 
 	return (
-		<>
-			<TableCell
-				sx={{ fontFamily: "'Roboto Mono', monospace", padding: '0 5px' }}
-			>
-				{time}
-			</TableCell>
+		<FreightGridRow item container>
+			<FreightGridItem className="monospace-font">{time}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.freightID}</TableCell>
+			<FreightGridItem>{freight.freightID}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.origin}</TableCell>
+			<FreightGridItem>{freight.origin}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.destination}</TableCell>
+			<FreightGridItem>{freight.destination}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.distance}</TableCell>
+			<FreightGridItem>{freight.distance}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.sender}</TableCell>
+			<FreightGridItem>{freight.sender}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.weight}</TableCell>
+			<FreightGridItem>{freight.weight}</FreightGridItem>
 
-			<TableCell sx={{ padding: '0 5px' }}>{freight.length}</TableCell>
-		</>
+			<FreightGridItem>{freight.length}</FreightGridItem>
+		</FreightGridRow>
 	);
 };

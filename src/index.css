@@ -3,6 +3,7 @@
 }
 
 body {
+	overflow: hidden;
 	margin: 0;
 	font-family: 'Poppins', 'Roboto', '-apple-system', 'BlinkMacSystemFont',
 		'Arial', 'sans-serif';
