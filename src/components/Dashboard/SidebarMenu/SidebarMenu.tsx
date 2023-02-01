@@ -11,43 +11,38 @@ import {
 	PriceChange,
 	ViewInAr,
 } from '@mui/icons-material';
-import { useMediaQuery } from '@mui/material';
 
 import { Container, Divider, SidebarOption } from './SidebarMenu.styles';
 
 export const SidebarMenu = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const matches = useMediaQuery('(min-width: 480px)');
 	const [open, setOpen] = useState(false);
 
-	const handleDrawerOpen = () => {
-		matches && setOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		matches && setOpen(false);
+	const toggleSidebarMenu = () => {
+		setOpen((isOpen) => !isOpen);
 	};
 
 	const handleNavigateBoard = () => {
 		if (location.pathname !== '/dashboard/board') navigate('/dashboard/board');
-		setOpen(false);
+		if (open) setOpen(false);
 	};
 
 	return (
 		<Container open={open}>
-			{matches && (
-				<SidebarOption className="sidebar-option-without-text">
-					{!open ? (
-						<Menu onClick={handleDrawerOpen} className="sidebar-menu-icon" />
-					) : (
-						<ChevronLeft
-							onClick={handleDrawerClose}
-							className="sidebar-menu-icon"
-						/>
-					)}
-				</SidebarOption>
-			)}
+			<SidebarOption
+				className={`sidebar-option-without-text ${open ? 'sidebar-open' : ''}`}
+				onClick={toggleSidebarMenu}
+			>
+				{!open ? (
+					<Menu className="sidebar-menu-icon" />
+				) : (
+					<>
+						<ChevronLeft className="sidebar-menu-icon" />
+						<p>Hide</p>
+					</>
+				)}
+			</SidebarOption>
 
 			<Divider />
 

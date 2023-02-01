@@ -1,14 +1,9 @@
-import { Grid, Paper } from '@mui/material';
+import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
-
-export const Container = styled(Paper)({
-	minWidth: '768px',
-	overflow: 'auto',
-});
 
 export const FreightGridRow = styled(Grid)({
 	display: 'grid',
-	gridTemplateColumns: '75px repeat(7, 1fr)',
+	gridTemplateColumns: '75px repeat(7, minmax(110px, 1fr))',
 	cursor: 'pointer',
 	userSelect: 'none',
 
