@@ -8,6 +8,9 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 
+import { checkRefs } from 'utils/checkRefs';
+import { resetRefValues } from 'utils/resetRefValues';
+
 const Container = styled(MUIContainer)({
 	paddingTop: '5px',
 	paddingBottom: '5px',
@@ -24,12 +27,18 @@ export const DispatchForm = () => {
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (!fromRef.current) return;
-		if (!toRef.current) return;
-		if (!weightRef.current) return;
-		if (!lenghtRef.current) return;
+		const validRefs = checkRefs(fromRef, toRef, weightRef, lenghtRef);
+		if (!validRefs) return;
 
-		console.log('sent');
+		const weight = Number(weightRef.current?.value);
+		const length = Number(lenghtRef.current?.value);
+
+		if (isNaN(weight) || isNaN(length)) {
+			// handle invalid input
+			return;
+		}
+
+		resetRefValues(fromRef, toRef, weightRef, lenghtRef);
 	};
 
 	return (
@@ -46,11 +55,21 @@ export const DispatchForm = () => {
 					</Grid>
 
 					<Grid item>
-						<input type="text" placeholder="Max weight" ref={weightRef} />
+						<input
+							type="text"
+							placeholder="Max weight (kg)"
+							ref={weightRef}
+							required
+						/>
 					</Grid>
 
 					<Grid item>
-						<input type="text" placeholder="Max length" ref={lenghtRef} />
+						<input
+							type="text"
+							placeholder="Max length (m)"
+							ref={lenghtRef}
+							required
+						/>
 					</Grid>
 
 					<Grid item>
