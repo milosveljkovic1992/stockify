@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 
 export const FreightGridRow = styled(Grid)({
 	display: 'grid',
-	gridTemplateColumns: '75px repeat(7, minmax(110px, 1fr))',
+	gridTemplateColumns: '75px repeat(auto-fit, minmax(110px, 1fr))',
 	cursor: 'pointer',
 	userSelect: 'none',
 

@@ -28,6 +28,8 @@ export const FreightItem = ({ hours, minutes, freight }: FreightItemProps) => {
 			<FreightGridItem>{freight.weight}</FreightGridItem>
 
 			<FreightGridItem>{freight.length}</FreightGridItem>
+
+			<FreightGridItem>{freight.transportPrice}</FreightGridItem>
 		</FreightGridRow>
 	);
 };

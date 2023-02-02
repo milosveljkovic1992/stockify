@@ -19,6 +19,7 @@ export type FreightType = {
 	deliveryTimeEnd: string;
 	purchasePrice: number;
 	orderPrice: number;
+	transportPrice: number;
 	priceMargin: number;
 	commodity: string;
 	contact: string;
@@ -33,4 +34,5 @@ export type SortFreightType =
 	| 'distance'
 	| 'sender'
 	| 'weight'
-	| 'length';
+	| 'length'
+	| 'transportPrice';
