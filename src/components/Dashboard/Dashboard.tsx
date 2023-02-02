@@ -16,7 +16,7 @@ const Content = styled('section')({
 	gridTemplateColumns: '1fr',
 	gridTemplateRows: 'auto 1fr',
 
-	padding: '5px 20px',
+	padding: '10px 0',
 	backgroundColor: 'whitesmoke',
 });
 
