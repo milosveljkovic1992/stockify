@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import { freights } from 'data';
 
 import { calculateTimePassed } from 'utils/calculateTimePassed';
@@ -53,12 +53,12 @@ export const Freight = () => {
 	}, []);
 
 	return (
-		<Box sx={{ width: '100%', overflow: 'hidden' }}>
+		<Container sx={{ width: '100%', overflow: 'hidden' }}>
 			<Typography component="h2" variant="h4">
 				Results
 			</Typography>
 			<Box sx={{ overflow: 'auto' }}>
-				<Paper sx={{ minWidth: '845px' }}>
+				<Paper sx={{ minWidth: '1000px' }}>
 					<Grid container>
 						<FreightGridRow item container className="freight-table-header">
 							<FreightGridItem
@@ -117,6 +117,13 @@ export const Freight = () => {
 							>
 								Length
 							</FreightGridItem>
+							<FreightGridItem
+								item
+								className="freight-table-header__sort-item"
+								onClick={() => handleSort('transportPrice')}
+							>
+								Price
+							</FreightGridItem>
 						</FreightGridRow>
 
 						{freightList.map((freight: FreightType) => {
@@ -136,6 +143,6 @@ export const Freight = () => {
 					</Grid>
 				</Paper>
 			</Box>
-		</Box>
+		</Container>
 	);
 };
