@@ -7,10 +7,9 @@ import {
 	Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { useDispatch } from 'react-redux';
 
-import { setTruckParameters } from 'store/truck-slice';
-import { addTruck } from 'store/trucks-slice';
+import { useAppDispatch } from 'store';
+import { createTruck, TruckWithoutID } from 'store/truck-slice';
 import { checkRefs } from 'utils/checkRefs';
 import { resetRefValues } from 'utils/resetRefValues';
 
@@ -23,15 +22,20 @@ const Container = styled(MUIContainer)({
 });
 
 export const DispatchForm = () => {
-	const dispatch = useDispatch();
-	const fromRef = useRef<HTMLInputElement>(null);
-	const toRef = useRef<HTMLInputElement>(null);
+	const dispatch = useAppDispatch();
+	const originRef = useRef<HTMLInputElement>(null);
+	const destinationRef = useRef<HTMLInputElement>(null);
 	const weightRef = useRef<HTMLInputElement>(null);
 	const lenghtRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		const validRefs = checkRefs(fromRef, toRef, weightRef, lenghtRef);
+		const validRefs = checkRefs(
+			originRef,
+			destinationRef,
+			weightRef,
+			lenghtRef,
+		);
 		if (!validRefs) return;
 
 		const weight = Number(weightRef.current?.value);
@@ -42,17 +46,15 @@ export const DispatchForm = () => {
 			return;
 		}
 
-		const truck = {
-			id: `something${Math.floor(Math.random() * 1000)}`,
-			from: fromRef.current?.value || '',
-			to: toRef.current?.value || '',
+		const truck: TruckWithoutID = {
+			origin: originRef.current?.value || '',
+			destination: destinationRef.current?.value || '',
 			weight,
 			length,
 		};
 
-		dispatch(setTruckParameters(truck));
-		dispatch(addTruck(truck));
-		resetRefValues(fromRef, toRef, weightRef, lenghtRef);
+		dispatch(createTruck(truck));
+		resetRefValues(originRef, destinationRef, weightRef, lenghtRef);
 	};
 
 	return (
@@ -61,11 +63,11 @@ export const DispatchForm = () => {
 			<form onSubmit={handleSubmit}>
 				<Grid container gap="10px">
 					<Grid item>
-						<input type="text" placeholder="From" ref={fromRef} />
+						<input type="text" placeholder="From" ref={originRef} />
 					</Grid>
 
 					<Grid item>
-						<input type="text" placeholder="To" ref={toRef} />
+						<input type="text" placeholder="To" ref={destinationRef} />
 					</Grid>
 
 					<Grid item>
