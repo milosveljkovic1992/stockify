@@ -10,7 +10,7 @@ export const BoardToolbar = () => {
 	const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
 
 	return (
-		<Container>
+		<Container maxWidth={false}>
 			<DefaultButton
 				onClick={() => setIsFormOpen((isOpen) => !isOpen)}
 				sx={{ padding: '0.5em 1em', fontSize: '0.75rem' }}

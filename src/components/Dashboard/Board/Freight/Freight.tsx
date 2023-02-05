@@ -53,7 +53,7 @@ export const Freight = () => {
 	}, []);
 
 	return (
-		<Container sx={{ width: '100%', overflow: 'hidden' }}>
+		<Container maxWidth={false} sx={{ width: '100%', overflow: 'hidden' }}>
 			<Typography component="h2" variant="h4">
 				Results
 			</Typography>

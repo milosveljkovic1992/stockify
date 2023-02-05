@@ -58,7 +58,7 @@ export const DispatchForm = () => {
 	};
 
 	return (
-		<Container>
+		<Container maxWidth={false}>
 			<Typography component="p">Dispatch a vehicle</Typography>
 			<form onSubmit={handleSubmit}>
 				<Grid container gap="10px">
