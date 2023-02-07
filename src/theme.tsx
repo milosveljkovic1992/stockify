@@ -36,7 +36,10 @@ const theme = createTheme({
 			main: '#4B4E6D',
 		},
 		info: {
-			main: '#EF476F',
+			main: '#ED6C02',
+		},
+		warning: {
+			main: '#ED0C02',
 		},
 	},
 	typography: {

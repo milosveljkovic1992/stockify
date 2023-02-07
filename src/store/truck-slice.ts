@@ -1,11 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { RootState } from 'store';
+import { addTruck } from './trucks-slice';
+
 export const createTruck = createAsyncThunk(
 	'/truck/createTruck',
-	async (truck: TruckWithoutID, thunkAPI) => {
+	async (truck: TruckFormInput, thunkAPI) => {
 		try {
-			const { data } = await axios.post<TruckParams>('/truck/dispatch', truck);
+			const state = thunkAPI.getState() as RootState;
+			const uid = state.user.userDetails._id;
+
+			const { data } = await axios.post<TruckType>('/truck/dispatch', {
+				...truck,
+				uid,
+			});
+			thunkAPI.dispatch(addTruck(data));
 			return data;
 		} catch (error) {
 			return thunkAPI.rejectWithValue('');
@@ -24,25 +34,36 @@ export const deleteTruck = createAsyncThunk(
 	},
 );
 
-export type TruckParams = {
-	id: string;
+export type TruckType = {
+	_id: string;
+	uid: string;
 	origin: string;
 	destination: string;
 	weight: number;
 	length: number;
+	createdAt: Date | '';
+	updatedAt: Date | '';
+	expireAt: Date | '';
 };
 
-export type TruckWithoutID = Omit<TruckParams, 'id'>;
+export type TruckFormInput = Omit<
+	TruckType,
+	'_id' | 'uid' | 'createdAt' | 'updatedAt' | 'expireAt'
+>;
 
-type InitialState = TruckParams & { isLoading: boolean };
+type InitialState = TruckType & { isLoading: boolean };
 
 const initialState: InitialState = {
-	id: '',
+	_id: '',
+	uid: '',
 	origin: '',
 	destination: '',
 	weight: 0,
 	length: 0,
-	isLoading: true,
+	createdAt: '',
+	updatedAt: '',
+	expireAt: '',
+	isLoading: false,
 };
 
 const truckSlice = createSlice({
@@ -55,13 +76,16 @@ const truckSlice = createSlice({
 		});
 		builder.addCase(
 			createTruck.fulfilled,
-			(state, action: PayloadAction<TruckParams>) => {
-				const { id, origin, destination, weight, length } = action.payload;
-				state.id = id;
-				state.origin = origin;
-				state.destination = destination;
-				state.weight = weight;
-				state.length = length;
+			(state, action: PayloadAction<TruckType>) => {
+				state._id = action.payload._id;
+				state.uid = action.payload.uid;
+				state.origin = action.payload.origin;
+				state.destination = action.payload.destination;
+				state.weight = action.payload.weight;
+				state.length = action.payload.length;
+				state.createdAt = action.payload.createdAt;
+				state.updatedAt = action.payload.updatedAt;
+				state.expireAt = action.payload.expireAt;
 				state.isLoading = false;
 			},
 		);
