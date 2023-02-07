@@ -52,8 +52,13 @@ const trucksSlice = createSlice({
 	name: 'trucks',
 	initialState,
 	reducers: {
-		addTruck(state, action: PayloadAction<TruckType>) {
+		addTruckToList(state, action: PayloadAction<TruckType>) {
 			state.truckList = [...state.truckList, action.payload];
+		},
+		updateTruckOnList(state, action: PayloadAction<TruckType>) {
+			state.truckList = state.truckList.map((truck) =>
+				truck._id === action.payload._id ? action.payload : truck,
+			);
 		},
 	},
 	extraReducers: (builder) => {
@@ -81,6 +86,6 @@ const trucksSlice = createSlice({
 	},
 });
 
-export const { addTruck } = trucksSlice.actions;
+export const { addTruckToList, updateTruckOnList } = trucksSlice.actions;
 
 export default trucksSlice;

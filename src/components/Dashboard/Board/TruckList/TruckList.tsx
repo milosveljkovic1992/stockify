@@ -63,7 +63,7 @@ export const TruckList = () => {
 					</Grid>
 					{!isLoading &&
 						[...truckList].reverse().map((truck) => {
-							const truckTime = new Date(truck.createdAt);
+							const truckTime = new Date(truck.updatedAt);
 							const { hours, minutes } = calculateTimePassed(
 								truckTime,
 								currentTime,
