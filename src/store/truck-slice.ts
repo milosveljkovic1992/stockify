@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { RootState } from 'store';
-import { addTruck } from './trucks-slice';
+import { addTruckToList, updateTruckOnList } from './trucks-slice';
 
 export const createTruck = createAsyncThunk(
 	'/truck/createTruck',
@@ -15,10 +15,25 @@ export const createTruck = createAsyncThunk(
 				...truck,
 				uid,
 			});
-			thunkAPI.dispatch(addTruck(data));
+			thunkAPI.dispatch(addTruckToList(data));
 			return data;
 		} catch (error) {
 			return thunkAPI.rejectWithValue('');
+		}
+	},
+);
+
+export const updateTruck = createAsyncThunk(
+	'/truck/updateTruck',
+	async (truck: TruckType, thunkAPI) => {
+		try {
+			const { data } = await axios.put(`/truck/update/${truck._id}`, {
+				truck,
+			});
+			thunkAPI.dispatch(updateTruckOnList(data));
+			return data;
+		} catch (error) {
+			thunkAPI.rejectWithValue('');
 		}
 	},
 );
@@ -91,6 +106,27 @@ const truckSlice = createSlice({
 		);
 		builder.addCase(createTruck.rejected, (state) => {
 			state = initialState;
+			state.isLoading = false;
+		});
+		builder.addCase(updateTruck.pending, (state) => {
+			state.isLoading = true;
+		});
+		builder.addCase(
+			updateTruck.fulfilled,
+			(state, action: PayloadAction<TruckType>) => {
+				state._id = action.payload._id;
+				state.uid = action.payload.uid;
+				state.origin = action.payload.origin;
+				state.destination = action.payload.destination;
+				state.weight = action.payload.weight;
+				state.length = action.payload.length;
+				state.createdAt = action.payload.createdAt;
+				state.updatedAt = action.payload.updatedAt;
+				state.expireAt = action.payload.expireAt;
+				state.isLoading = false;
+			},
+		);
+		builder.addCase(updateTruck.rejected, (state) => {
 			state.isLoading = false;
 		});
 	},
