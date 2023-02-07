@@ -9,7 +9,7 @@ import {
 import { styled } from '@mui/system';
 
 import { useAppDispatch } from 'store';
-import { createTruck, TruckWithoutID } from 'store/truck-slice';
+import { createTruck, TruckFormInput } from 'store/truck-slice';
 import { checkRefs } from 'utils/checkRefs';
 import { resetRefValues } from 'utils/resetRefValues';
 
@@ -46,7 +46,7 @@ export const DispatchForm = () => {
 			return;
 		}
 
-		const truck: TruckWithoutID = {
+		const truck: TruckFormInput = {
 			origin: originRef.current?.value || '',
 			destination: destinationRef.current?.value || '',
 			weight,
