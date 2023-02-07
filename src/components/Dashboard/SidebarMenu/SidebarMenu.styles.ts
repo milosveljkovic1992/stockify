@@ -10,7 +10,7 @@ export const Container = styled('aside', {
 })<ToggleProps>(({ open }) => ({
 	position: 'sticky',
 	top: '0',
-	height: '100vh',
+	height: '93vh',
 	width: '250px',
 	transform: open ? 'translateX(0)' : 'translateX(calc(-100% + 45px))',
 	marginRight: open ? '0' : '-200px',
