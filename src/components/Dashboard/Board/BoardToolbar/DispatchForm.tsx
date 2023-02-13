@@ -1,9 +1,11 @@
 import { FormEvent, useRef } from 'react';
 
 import {
+	Autocomplete,
 	Button,
 	Container as MUIContainer,
 	Grid,
+	TextField,
 	Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
@@ -12,6 +14,7 @@ import { useAppDispatch } from 'store';
 import { createTruck, TruckFormInput } from 'store/truck-slice';
 import { checkRefs } from 'utils/checkRefs';
 import { resetRefValues } from 'utils/resetRefValues';
+import { LocationAutocomplete } from './LocationAutocomplete';
 
 const Container = styled(MUIContainer)({
 	paddingTop: '5px',
@@ -61,30 +64,47 @@ export const DispatchForm = () => {
 		<Container maxWidth={false}>
 			<Typography component="p">Dispatch a vehicle</Typography>
 			<form onSubmit={handleSubmit}>
-				<Grid container gap="10px">
-					<Grid item>
-						<input type="text" placeholder="From" ref={originRef} />
+				<Grid
+					container
+					gap="10px"
+					display="grid"
+					gridTemplateColumns="repeat(2, minmax(300px, 1fr)) repeat(auto-fit, minmax(100px, 1fr)) 70px"
+				>
+					<Grid item position="relative">
+						<LocationAutocomplete ref={originRef} />
 					</Grid>
 
 					<Grid item>
-						<input type="text" placeholder="To" ref={destinationRef} />
-					</Grid>
-
-					<Grid item>
-						<input
-							type="text"
-							placeholder="Max weight (kg)"
-							ref={weightRef}
-							required
+						<Autocomplete
+							blurOnSelect
+							fullWidth
+							options={['something1', 'something2', 'something3']}
+							filterOptions={(x) => x}
+							renderInput={(params) => (
+								<TextField {...params} label="From" size="small" />
+							)}
 						/>
 					</Grid>
 
 					<Grid item>
-						<input
+						<TextField
 							type="text"
-							placeholder="Max length (m)"
+							ref={weightRef}
+							required
+							fullWidth
+							size="small"
+							label="Max weight (kg)"
+						/>
+					</Grid>
+
+					<Grid item>
+						<TextField
+							type="text"
 							ref={lenghtRef}
 							required
+							fullWidth
+							size="small"
+							label="Max length (m)"
 						/>
 					</Grid>
 
@@ -98,7 +118,10 @@ export const DispatchForm = () => {
 								fontWeight: '600',
 								padding: '0 5px',
 								borderWidth: '1px',
+								height: '100%',
 							}}
+							fullWidth
+							disableRipple
 							type="submit"
 						>
 							Submit
