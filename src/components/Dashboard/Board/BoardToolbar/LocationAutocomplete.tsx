@@ -12,6 +12,8 @@ export type City = {
 	adminCode: string;
 	country: {
 		objectId: string;
+		name: string;
+		code: string;
 	};
 	[key: string]: unknown;
 };
@@ -57,7 +59,11 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 				value={value}
 				options={options}
 				filterOptions={(x) => x}
-				getOptionLabel={(option) => `${option.name}, ${option.adminCode}`}
+				getOptionLabel={(option) =>
+					`${option.name}, ${option.country.code} ${
+						option.country.code === 'US' ? option.adminCode : ''
+					}`
+				}
 				isOptionEqualToValue={(option, value) => {
 					if (!options.find(({ objectId }) => objectId === value.objectId)) {
 						return previousValueRef.current?.objectId === value.objectId;
@@ -105,7 +111,8 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 								>
 									<Box component="span">{option.name}</Box>
 									<Typography variant="body2" color="text.secondary">
-										{option.adminCode}
+										{option.country.code}
+										{option.country.code === 'US' ? ` ${option.adminCode}` : ''}
 									</Typography>
 								</Grid>
 							</Grid>
