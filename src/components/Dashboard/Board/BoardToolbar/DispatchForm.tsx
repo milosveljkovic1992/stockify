@@ -1,7 +1,6 @@
 import { FormEvent, useRef } from 'react';
 
 import {
-	Autocomplete,
 	Button,
 	Container as MUIContainer,
 	Grid,
@@ -75,15 +74,7 @@ export const DispatchForm = () => {
 					</Grid>
 
 					<Grid item>
-						<Autocomplete
-							blurOnSelect
-							fullWidth
-							options={['something1', 'something2', 'something3']}
-							filterOptions={(x) => x}
-							renderInput={(params) => (
-								<TextField {...params} label="From" size="small" />
-							)}
-						/>
+						<LocationAutocomplete ref={destinationRef} />
 					</Grid>
 
 					<Grid item>
