@@ -5,25 +5,16 @@ import { LocationOn } from '@mui/icons-material';
 
 import { useDebounce } from 'hooks/useDebounce';
 import { fetchCitiesByName } from '../../../../axios/fetchCitiesByName';
-
-export type City = {
-	objectId: string;
-	name: string;
-	adminCode: string;
-	country: {
-		objectId: string;
-		name: string;
-		code: string;
-	};
-	[key: string]: unknown;
-};
+import { fetchCitiesByNameAndCountry } from '../../../../axios/fetchCitiesByNameAndCountry';
+import type { City } from './Location.types';
 
 export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 	(_, ref) => {
 		const [value, setValue] = useState<City | null>(null);
 		const [inputValue, setInputValue] = useState('');
 		const [options, setOptions] = useState<City[]>([]);
-		const [isLoading, setIsLoading] = useState<boolean>(true);
+		const [isLoading, setIsLoading] = useState<boolean>(false);
+
 		const previousValueRef = useRef<City | null>(null);
 		const previousOptionsRef = useRef<City[] | null>(null);
 		const isSelectedRef = useRef<boolean>(false);
@@ -32,15 +23,21 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 
 		useEffect(() => {
 			const controller = new AbortController();
-
 			const fetchSuggestions = async () => {
-				const cityName = debouncedValue.split(',')[0].trim();
-				const cities = await fetchCitiesByName(cityName, controller);
-				if (cities) {
-					setOptions(cities);
+				let cities: City[] | [] = [];
+				const [cityName, countryName] = debouncedValue.split(',');
+
+				if (countryName && countryName.trim().length === 2) {
+					cities = await fetchCitiesByNameAndCountry(
+						cityName.trim(),
+						countryName.trim(),
+						controller,
+					);
 				} else {
-					setOptions([]);
+					cities = await fetchCitiesByName(cityName.trim(), controller);
 				}
+
+				setOptions(cities);
 				setIsLoading(false);
 			};
 
@@ -60,8 +57,8 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 				options={options}
 				filterOptions={(x) => x}
 				getOptionLabel={(option) =>
-					`${option.name}, ${option.country.code} ${
-						option.country.code === 'US' ? option.adminCode : ''
+					`${option.name}, ${option.country.code}${
+						option.country.code === 'US' ? ` ${option.adminCode}` : ''
 					}`
 				}
 				isOptionEqualToValue={(option, value) => {
