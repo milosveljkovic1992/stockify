@@ -25,10 +25,14 @@ export const GridRow = styled(Grid)({
 export const GridItem = styled(Grid)({
 	display: 'flex',
 	alignItems: 'center',
-	justifyContent: 'flex-start',
+
 	padding: '5px',
 	cursor: 'default',
 
+	'&.full-width': {
+		display: 'block',
+		width: '100%',
+	},
 	'&.monospace-font': {
 		fontFamily: "'Roboto Mono', monospace",
 		letterSpacing: -1,

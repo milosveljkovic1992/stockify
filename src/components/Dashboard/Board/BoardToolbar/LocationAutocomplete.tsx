@@ -8,9 +8,14 @@ import { fetchCitiesByName } from '../../../../axios/fetchCitiesByName';
 import { fetchCitiesByNameAndCountry } from '../../../../axios/fetchCitiesByNameAndCountry';
 import type { City } from './Location.types';
 
-export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
-	(_, ref) => {
-		const [value, setValue] = useState<City | null>(null);
+interface Props {
+	label: string;
+	value?: City | null;
+}
+
+export const LocationAutocomplete = forwardRef<City | null, Props>(
+	(props, ref) => {
+		const [value, setValue] = useState<City | null>(props.value || null);
 		const [inputValue, setInputValue] = useState('');
 		const [options, setOptions] = useState<City[]>([]);
 		const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,6 +28,7 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 
 		useEffect(() => {
 			const controller = new AbortController();
+
 			const fetchSuggestions = async () => {
 				let cities: City[] | [] = [];
 				const [cityName, countryName] = debouncedValue.split(',');
@@ -72,6 +78,7 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 				noOptionsText="No locations"
 				onChange={(_, newValue: City | null) => {
 					setValue(newValue);
+					if (ref && typeof ref !== 'function') ref.current = newValue;
 				}}
 				onInputChange={(event, newInputValue) => {
 					if (event) {
@@ -89,10 +96,10 @@ export const LocationAutocomplete = forwardRef<HTMLInputElement, unknown>(
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label="Add a location"
+						label={props.label}
 						fullWidth
 						size="small"
-						inputRef={ref}
+						color="secondary"
 					/>
 				)}
 				renderOption={(props, option) => {

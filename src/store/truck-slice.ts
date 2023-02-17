@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { RootState } from 'store';
 import { addTruckToList, updateTruckOnList } from './trucks-slice';
+import type { City } from 'components/Dashboard/Board/BoardToolbar/Location.types';
 
 export const createTruck = createAsyncThunk(
 	'/truck/createTruck',
@@ -52,8 +53,9 @@ export const deleteTruck = createAsyncThunk(
 export type TruckType = {
 	_id: string;
 	uid: string;
-	origin: string;
-	destination: string;
+	origin: City | null;
+	destination: City | null;
+	distance: number;
 	weight: number;
 	length: number;
 	createdAt: Date | '';
@@ -71,8 +73,9 @@ type InitialState = TruckType & { isLoading: boolean };
 const initialState: InitialState = {
 	_id: '',
 	uid: '',
-	origin: '',
-	destination: '',
+	origin: null,
+	destination: null,
+	distance: 0,
 	weight: 0,
 	length: 0,
 	createdAt: '',
@@ -96,6 +99,7 @@ const truckSlice = createSlice({
 				state.uid = action.payload.uid;
 				state.origin = action.payload.origin;
 				state.destination = action.payload.destination;
+				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
 				state.createdAt = action.payload.createdAt;
@@ -118,6 +122,7 @@ const truckSlice = createSlice({
 				state.uid = action.payload.uid;
 				state.origin = action.payload.origin;
 				state.destination = action.payload.destination;
+				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
 				state.createdAt = action.payload.createdAt;
