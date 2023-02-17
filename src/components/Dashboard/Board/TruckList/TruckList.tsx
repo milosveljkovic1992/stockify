@@ -49,11 +49,15 @@ export const TruckList = () => {
 							</GridItem>
 
 							<GridItem item>
-								<Typography>Weight</Typography>
+								<Typography>Max distance (km)</Typography>
 							</GridItem>
 
 							<GridItem item>
-								<Typography>Length</Typography>
+								<Typography>Weight (kg)</Typography>
+							</GridItem>
+
+							<GridItem item>
+								<Typography>Length (m)</Typography>
 							</GridItem>
 
 							<GridItem item sx={{ gridColumnEnd: '-1', textAlign: 'center' }}>

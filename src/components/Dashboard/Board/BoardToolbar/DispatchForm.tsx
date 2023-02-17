@@ -11,9 +11,10 @@ import { styled } from '@mui/system';
 
 import { useAppDispatch } from 'store';
 import { createTruck, TruckFormInput } from 'store/truck-slice';
-import { checkRefs } from 'utils/checkRefs';
 import { resetRefValues } from 'utils/resetRefValues';
+
 import { LocationAutocomplete } from './LocationAutocomplete';
+import type { City } from './Location.types';
 
 const Container = styled(MUIContainer)({
 	paddingTop: '5px',
@@ -25,38 +26,37 @@ const Container = styled(MUIContainer)({
 
 export const DispatchForm = () => {
 	const dispatch = useAppDispatch();
-	const originRef = useRef<HTMLInputElement>(null);
-	const destinationRef = useRef<HTMLInputElement>(null);
+	const originRef = useRef<City | null>(null);
+	const destinationRef = useRef<City | null>(null);
+	const distanceRef = useRef<HTMLInputElement>(null);
 	const weightRef = useRef<HTMLInputElement>(null);
-	const lenghtRef = useRef<HTMLInputElement>(null);
+	const lengthRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		const validRefs = checkRefs(
-			originRef,
-			destinationRef,
-			weightRef,
-			lenghtRef,
-		);
-		if (!validRefs) return;
-
+		const distance = Number(distanceRef.current?.value);
 		const weight = Number(weightRef.current?.value);
-		const length = Number(lenghtRef.current?.value);
+		const length = Number(lengthRef.current?.value);
 
-		if (isNaN(weight) || isNaN(length)) {
+		if (isNaN(distance) || isNaN(weight) || isNaN(length)) {
 			// handle invalid input
 			return;
 		}
 
+		if (!originRef.current || !destinationRef.current) return;
+
 		const truck: TruckFormInput = {
-			origin: originRef.current?.value || '',
-			destination: destinationRef.current?.value || '',
+			origin: originRef.current,
+			destination: destinationRef.current,
+			distance,
 			weight,
 			length,
 		};
 
 		dispatch(createTruck(truck));
-		resetRefValues(originRef, destinationRef, weightRef, lenghtRef);
+		originRef.current = null;
+		destinationRef.current = null;
+		resetRefValues(distanceRef, weightRef, lengthRef);
 	};
 
 	return (
@@ -70,20 +70,36 @@ export const DispatchForm = () => {
 					gridTemplateColumns="repeat(2, minmax(300px, 1fr)) repeat(auto-fit, minmax(100px, 1fr)) 70px"
 				>
 					<Grid item position="relative">
-						<LocationAutocomplete ref={originRef} />
+						<LocationAutocomplete ref={originRef} label="Add origin" />
 					</Grid>
 
 					<Grid item>
-						<LocationAutocomplete ref={destinationRef} />
+						<LocationAutocomplete
+							ref={destinationRef}
+							label="Add destination"
+						/>
 					</Grid>
 
 					<Grid item>
 						<TextField
 							type="text"
-							ref={weightRef}
+							inputRef={distanceRef}
 							required
 							fullWidth
 							size="small"
+							color="secondary"
+							label="Max distance (km)"
+						/>
+					</Grid>
+
+					<Grid item>
+						<TextField
+							type="text"
+							inputRef={weightRef}
+							required
+							fullWidth
+							size="small"
+							color="secondary"
 							label="Max weight (kg)"
 						/>
 					</Grid>
@@ -91,10 +107,11 @@ export const DispatchForm = () => {
 					<Grid item>
 						<TextField
 							type="text"
-							ref={lenghtRef}
+							inputRef={lengthRef}
 							required
 							fullWidth
 							size="small"
+							color="secondary"
 							label="Max length (m)"
 						/>
 					</Grid>

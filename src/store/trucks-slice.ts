@@ -56,9 +56,14 @@ const trucksSlice = createSlice({
 			state.truckList = [...state.truckList, action.payload];
 		},
 		updateTruckOnList(state, action: PayloadAction<TruckType>) {
-			state.truckList = state.truckList.map((truck) =>
+			const updatedList = state.truckList.map((truck) =>
 				truck._id === action.payload._id ? action.payload : truck,
 			);
+
+			if (updatedList.length > 1) {
+				updatedList.sort((a, b) => (a.updatedAt > b.updatedAt ? 1 : -1));
+			}
+			state.truckList = updatedList;
 		},
 	},
 	extraReducers: (builder) => {
