@@ -9,6 +9,12 @@ import { DispatchForm } from './DispatchForm';
 export const BoardToolbar = () => {
 	const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
 
+	const closeFormWithDelay = (delay = 1000) => {
+		setTimeout(() => {
+			setIsFormOpen(false);
+		}, delay);
+	};
+
 	return (
 		<Container maxWidth={false} sx={{ marginBottom: '20px' }}>
 			<DefaultButton
@@ -18,7 +24,7 @@ export const BoardToolbar = () => {
 				<LocalShipping fontSize="small" sx={{ marginRight: '5px' }} /> Dispatch
 			</DefaultButton>
 
-			{isFormOpen && <DispatchForm />}
+			{isFormOpen && <DispatchForm closeForm={closeFormWithDelay} />}
 		</Container>
 	);
 };

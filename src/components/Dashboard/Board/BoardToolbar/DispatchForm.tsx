@@ -1,49 +1,77 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
-import {
-	Button,
-	Container as MUIContainer,
-	Grid,
-	TextField,
-	Typography,
-} from '@mui/material';
-import { styled } from '@mui/system';
+import { Grid, MenuItem, TextField, Typography } from '@mui/material';
 
 import { useAppDispatch } from 'store';
-import { createTruck, TruckFormInput } from 'store/truck-slice';
-import { resetRefValues } from 'utils/resetRefValues';
+import {
+	createTruck,
+	TruckFormInput,
+	TruckTypeOptions,
+} from 'store/truck-slice';
 
 import { LocationAutocomplete } from './LocationAutocomplete';
+import { Container, SubmitButton } from './DispatchForm.styles';
 import type { City } from './Location.types';
 
-const Container = styled(MUIContainer)({
-	paddingTop: '5px',
-	paddingBottom: '5px',
-	marginTop: '10px',
-	borderRadius: '4px',
-	border: '1px solid #ccc',
-});
+const truckOptions: TruckTypeOptions[] = [
+	'Van',
+	'Reefer',
+	'Flatbed',
+	'LTL',
+	'Bulk',
+	'Other',
+	'Power Only',
+	'Dray',
+];
 
-export const DispatchForm = () => {
+interface DispatchFormProps {
+	closeForm: (miliseconds?: number) => void;
+}
+
+export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 	const dispatch = useAppDispatch();
+	const [submitStatus, setSubmitStatus] = useState<
+		'idle' | 'sending' | 'success' | 'error'
+	>('idle');
+
 	const originRef = useRef<City | null>(null);
 	const destinationRef = useRef<City | null>(null);
 	const distanceRef = useRef<HTMLInputElement>(null);
 	const weightRef = useRef<HTMLInputElement>(null);
 	const lengthRef = useRef<HTMLInputElement>(null);
+	const truckRef = useRef<HTMLInputElement>(null);
 
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+		setSubmitStatus('sending');
+
 		const distance = Number(distanceRef.current?.value);
 		const weight = Number(weightRef.current?.value);
 		const length = Number(lengthRef.current?.value);
+		const truckOption = truckRef.current?.value as TruckTypeOptions;
 
 		if (isNaN(distance) || isNaN(weight) || isNaN(length)) {
 			// handle invalid input
+			if (distanceRef.current && isNaN(distance)) {
+				distanceRef.current.value = '';
+			}
+			if (weightRef.current && isNaN(weight)) {
+				weightRef.current.value = '';
+			}
+			if (lengthRef.current && isNaN(length)) {
+				lengthRef.current.value = '';
+			}
+
+			setSubmitStatus('error');
+			setTimeout(() => {
+				setSubmitStatus('idle');
+			}, 1000);
 			return;
 		}
 
-		if (!originRef.current || !destinationRef.current) return;
+		if (!originRef.current || !destinationRef.current) {
+			return;
+		}
 
 		const truck: TruckFormInput = {
 			origin: originRef.current,
@@ -51,33 +79,33 @@ export const DispatchForm = () => {
 			distance,
 			weight,
 			length,
+			truck: truckOption,
 		};
 
-		dispatch(createTruck(truck));
-		originRef.current = null;
-		destinationRef.current = null;
-		resetRefValues(distanceRef, weightRef, lengthRef);
+		await dispatch(createTruck(truck));
+		setSubmitStatus('success');
+		closeForm();
 	};
 
 	return (
 		<Container maxWidth={false}>
-			<Typography component="p">Dispatch a vehicle</Typography>
+			<Typography component="p" mb={1}>
+				Dispatch a vehicle
+			</Typography>
 			<form onSubmit={handleSubmit}>
 				<Grid
 					container
 					gap="10px"
 					display="grid"
-					gridTemplateColumns="repeat(2, minmax(300px, 1fr)) repeat(auto-fit, minmax(100px, 1fr)) 70px"
+					gridTemplateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+					gridTemplateRows="repeat(auto-fill, 40px)"
 				>
 					<Grid item position="relative">
-						<LocationAutocomplete ref={originRef} label="Add origin" />
+						<LocationAutocomplete ref={originRef} label="Origin" />
 					</Grid>
 
 					<Grid item>
-						<LocationAutocomplete
-							ref={destinationRef}
-							label="Add destination"
-						/>
+						<LocationAutocomplete ref={destinationRef} label="Destination" />
 					</Grid>
 
 					<Grid item>
@@ -117,23 +145,35 @@ export const DispatchForm = () => {
 					</Grid>
 
 					<Grid item>
-						<Button
+						<TextField
+							select
+							inputRef={truckRef}
+							required
+							fullWidth
+							size="small"
+							color="secondary"
+							label="Truck"
+							defaultValue=""
+						>
+							{truckOptions.map((option) => (
+								<MenuItem key={option} value={option}>
+									{option}
+								</MenuItem>
+							))}
+						</TextField>
+					</Grid>
+
+					<Grid item>
+						<SubmitButton
 							variant="outlined"
 							color="secondary"
-							sx={{
-								fontSize: '0.875rem',
-								lineHeight: '1.625',
-								fontWeight: '600',
-								padding: '0 5px',
-								borderWidth: '1px',
-								height: '100%',
-							}}
 							fullWidth
 							disableRipple
 							type="submit"
+							disabled={submitStatus !== 'idle'}
 						>
-							Submit
-						</Button>
+							{submitStatus === 'idle' ? 'Submit' : submitStatus}
+						</SubmitButton>
 					</Grid>
 				</Grid>
 			</form>
