@@ -58,10 +58,21 @@ export type TruckType = {
 	distance: number;
 	weight: number;
 	length: number;
+	truck: TruckTypeOptions;
 	createdAt: Date | '';
 	updatedAt: Date | '';
 	expireAt: Date | '';
 };
+
+export type TruckTypeOptions =
+	| 'Van'
+	| 'Reefer'
+	| 'Flatbed'
+	| 'LTL'
+	| 'Bulk'
+	| 'Other'
+	| 'Power Only'
+	| 'Dray';
 
 export type TruckFormInput = Omit<
 	TruckType,
@@ -78,6 +89,7 @@ const initialState: InitialState = {
 	distance: 0,
 	weight: 0,
 	length: 0,
+	truck: 'Van',
 	createdAt: '',
 	updatedAt: '',
 	expireAt: '',
@@ -102,6 +114,7 @@ const truckSlice = createSlice({
 				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
+				state.truck = action.payload.truck;
 				state.createdAt = action.payload.createdAt;
 				state.updatedAt = action.payload.updatedAt;
 				state.expireAt = action.payload.expireAt;
@@ -125,6 +138,7 @@ const truckSlice = createSlice({
 				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
+				state.truck = action.payload.truck;
 				state.createdAt = action.payload.createdAt;
 				state.updatedAt = action.payload.updatedAt;
 				state.expireAt = action.payload.expireAt;

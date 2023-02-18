@@ -60,6 +60,10 @@ export const TruckList = () => {
 								<Typography>Length (m)</Typography>
 							</GridItem>
 
+							<GridItem item>
+								<Typography>Truck</Typography>
+							</GridItem>
+
 							<GridItem item sx={{ gridColumnEnd: '-1', textAlign: 'center' }}>
 								<Typography>Actions</Typography>
 							</GridItem>
