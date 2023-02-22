@@ -22,14 +22,7 @@ export const TruckListItem = ({
 	minutes,
 }: TruckListItemProps) => {
 	const dispatch = useAppDispatch();
-	const {
-		origin,
-		destination,
-		distance,
-		weight,
-		length,
-		truck: truckType,
-	} = truck;
+	const { origin, destination, weight, length, truck: truckType } = truck;
 	const time = `${parseAsClock(hours)}:${parseAsClock(minutes)}`;
 
 	const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -70,7 +63,6 @@ export const TruckListItem = ({
 							? `US ${destination?.adminCode}`
 							: destination?.country.code}
 					</GridItem>
-					<GridItem item>{distance}</GridItem>
 					<GridItem item>{weight}</GridItem>
 					<GridItem item>{length}</GridItem>
 					<GridItem item>{truckType}</GridItem>

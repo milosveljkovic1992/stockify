@@ -49,10 +49,6 @@ export const TruckList = () => {
 							</GridItem>
 
 							<GridItem item>
-								<Typography>Max distance (km)</Typography>
-							</GridItem>
-
-							<GridItem item>
 								<Typography>Weight (kg)</Typography>
 							</GridItem>
 

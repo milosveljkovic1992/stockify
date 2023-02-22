@@ -36,7 +36,6 @@ export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 
 	const originRef = useRef<City | null>(null);
 	const destinationRef = useRef<City | null>(null);
-	const distanceRef = useRef<HTMLInputElement>(null);
 	const weightRef = useRef<HTMLInputElement>(null);
 	const lengthRef = useRef<HTMLInputElement>(null);
 	const truckRef = useRef<HTMLInputElement>(null);
@@ -45,16 +44,12 @@ export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 		e.preventDefault();
 		setSubmitStatus('sending');
 
-		const distance = Number(distanceRef.current?.value);
 		const weight = Number(weightRef.current?.value);
 		const length = Number(lengthRef.current?.value);
 		const truckOption = truckRef.current?.value as TruckTypeOptions;
 
-		if (isNaN(distance) || isNaN(weight) || isNaN(length)) {
+		if (isNaN(weight) || isNaN(length)) {
 			// handle invalid input
-			if (distanceRef.current && isNaN(distance)) {
-				distanceRef.current.value = '';
-			}
 			if (weightRef.current && isNaN(weight)) {
 				weightRef.current.value = '';
 			}
@@ -76,7 +71,6 @@ export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 		const truck: TruckFormInput = {
 			origin: originRef.current,
 			destination: destinationRef.current,
-			distance,
 			weight,
 			length,
 			truck: truckOption,
@@ -106,18 +100,6 @@ export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 
 					<Grid item>
 						<LocationAutocomplete ref={destinationRef} label="Destination" />
-					</Grid>
-
-					<Grid item>
-						<TextField
-							type="text"
-							inputRef={distanceRef}
-							required
-							fullWidth
-							size="small"
-							color="secondary"
-							label="Max distance (km)"
-						/>
 					</Grid>
 
 					<Grid item>
