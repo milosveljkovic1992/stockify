@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 
-import { TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 import { Check, Close } from '@mui/icons-material';
 
 import { useAppDispatch } from 'store';
-import { TruckType, updateTruck } from 'store/truck-slice';
+import { TruckType, TruckTypeOptions, updateTruck } from 'store/truck-slice';
 
+import { truckOptions } from 'global/truckOptions';
 import { LocationAutocomplete } from 'components/Dashboard/Board/BoardToolbar/LocationAutocomplete';
 import type { City } from 'components/Dashboard/Board/BoardToolbar/Location.types';
 import { GridItem } from './TruckList.styles';
@@ -20,15 +21,19 @@ export const EditTruckListItem = ({
 	handleCloseEdit,
 }: EditTruckListItemProps) => {
 	const dispatch = useAppDispatch();
-	const { origin, destination, weight, length } = truck;
+	const { origin, destination, weight, length, truck: truckOption } = truck;
 
 	const originRef = useRef<City | null>(origin);
 	const destinationRef = useRef<City | null>(destination);
 	const weightRef = useRef<HTMLInputElement>(null);
 	const lengthRef = useRef<HTMLInputElement>(null);
+	const truckRef = useRef<HTMLInputElement>(null);
+	const defaultTruckOption = useRef<TruckTypeOptions>(truckOption);
 
 	const handleSubmit = async () => {
-		if (!originRef.current || !destinationRef.current) return;
+		if (!originRef.current || !destinationRef.current || !truckRef.current) {
+			return;
+		}
 
 		const updatedTruck: TruckType = {
 			...truck,
@@ -36,6 +41,7 @@ export const EditTruckListItem = ({
 			destination: destinationRef.current,
 			weight: Number(weightRef.current?.value) || 0,
 			length: Number(lengthRef.current?.value) || 0,
+			truck: truckRef.current.value as TruckTypeOptions,
 		};
 		await dispatch(updateTruck(updatedTruck));
 		handleCloseEdit();
@@ -77,6 +83,25 @@ export const EditTruckListItem = ({
 					label=""
 				/>
 			</GridItem>
+			<GridItem item className="full-width">
+				<TextField
+					select
+					inputRef={truckRef}
+					defaultValue={defaultTruckOption.current}
+					required
+					fullWidth
+					size="small"
+					color="secondary"
+					label="Truck"
+				>
+					{truckOptions.map((option) => (
+						<MenuItem key={option} value={option}>
+							{option}
+						</MenuItem>
+					))}
+				</TextField>
+			</GridItem>
+
 			<GridItem
 				item
 				sx={{ gridColumnEnd: '-2' }}
