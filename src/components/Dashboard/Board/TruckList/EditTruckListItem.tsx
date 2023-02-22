@@ -92,7 +92,7 @@ export const EditTruckListItem = ({
 					fullWidth
 					size="small"
 					color="secondary"
-					label="Truck"
+					label=""
 				>
 					{truckOptions.map((option) => (
 						<MenuItem key={option} value={option}>
