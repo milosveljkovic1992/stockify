@@ -100,6 +100,7 @@ export const LocationAutocomplete = forwardRef<City | null, Props>(
 						fullWidth
 						size="small"
 						color="secondary"
+						required
 					/>
 				)}
 				renderOption={(props, option) => {

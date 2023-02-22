@@ -66,22 +66,24 @@ export const TruckList = () => {
 						</GridRow>
 					</Grid>
 					{!isLoading &&
-						[...truckList].reverse().map((truck) => {
-							const truckTime = new Date(truck.updatedAt);
-							const { hours, minutes } = calculateTimePassed(
-								truckTime,
-								currentTime,
-							);
+						[...truckList]
+							.sort((a, b) => (a.updatedAt > b.updatedAt ? -1 : 1))
+							.map((truck) => {
+								const truckTime = new Date(truck.updatedAt);
+								const { hours, minutes } = calculateTimePassed(
+									truckTime,
+									currentTime,
+								);
 
-							return (
-								<TruckListItem
-									key={truck._id}
-									truck={truck}
-									hours={hours}
-									minutes={minutes}
-								/>
-							);
-						})}
+								return (
+									<TruckListItem
+										key={truck._id}
+										truck={truck}
+										hours={hours}
+										minutes={minutes}
+									/>
+								);
+							})}
 				</Paper>
 			</Inner>
 		</Container>

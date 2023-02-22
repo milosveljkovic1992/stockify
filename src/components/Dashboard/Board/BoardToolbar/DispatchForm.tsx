@@ -9,20 +9,10 @@ import {
 	TruckTypeOptions,
 } from 'store/truck-slice';
 
+import { truckOptions } from 'global/truckOptions';
 import { LocationAutocomplete } from './LocationAutocomplete';
 import { Container, SubmitButton } from './DispatchForm.styles';
 import type { City } from './Location.types';
-
-const truckOptions: TruckTypeOptions[] = [
-	'Van',
-	'Reefer',
-	'Flatbed',
-	'LTL',
-	'Bulk',
-	'Other',
-	'Power Only',
-	'Dray',
-];
 
 interface DispatchFormProps {
 	closeForm: (miliseconds?: number) => void;
