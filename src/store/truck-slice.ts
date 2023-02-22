@@ -55,7 +55,6 @@ export type TruckType = {
 	uid: string;
 	origin: City | null;
 	destination: City | null;
-	distance: number;
 	weight: number;
 	length: number;
 	truck: TruckTypeOptions;
@@ -86,7 +85,6 @@ const initialState: InitialState = {
 	uid: '',
 	origin: null,
 	destination: null,
-	distance: 0,
 	weight: 0,
 	length: 0,
 	truck: 'Van',
@@ -111,7 +109,6 @@ const truckSlice = createSlice({
 				state.uid = action.payload.uid;
 				state.origin = action.payload.origin;
 				state.destination = action.payload.destination;
-				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
 				state.truck = action.payload.truck;
@@ -135,7 +132,6 @@ const truckSlice = createSlice({
 				state.uid = action.payload.uid;
 				state.origin = action.payload.origin;
 				state.destination = action.payload.destination;
-				state.distance = action.payload.distance;
 				state.weight = action.payload.weight;
 				state.length = action.payload.length;
 				state.truck = action.payload.truck;

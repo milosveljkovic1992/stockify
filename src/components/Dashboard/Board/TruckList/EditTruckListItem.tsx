@@ -20,11 +20,10 @@ export const EditTruckListItem = ({
 	handleCloseEdit,
 }: EditTruckListItemProps) => {
 	const dispatch = useAppDispatch();
-	const { origin, destination, distance, weight, length } = truck;
+	const { origin, destination, weight, length } = truck;
 
 	const originRef = useRef<City | null>(origin);
 	const destinationRef = useRef<City | null>(destination);
-	const distanceRef = useRef<HTMLInputElement>(null);
 	const weightRef = useRef<HTMLInputElement>(null);
 	const lengthRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +34,6 @@ export const EditTruckListItem = ({
 			...truck,
 			origin: originRef.current,
 			destination: destinationRef.current,
-			distance: Number(distanceRef.current?.value) || 0,
 			weight: Number(weightRef.current?.value) || 0,
 			length: Number(lengthRef.current?.value) || 0,
 		};
@@ -52,18 +50,6 @@ export const EditTruckListItem = ({
 				<LocationAutocomplete
 					ref={destinationRef}
 					value={destination}
-					label=""
-				/>
-			</GridItem>
-			<GridItem item className="full-width">
-				<TextField
-					type="text"
-					inputRef={distanceRef}
-					defaultValue={distance}
-					required
-					fullWidth
-					size="small"
-					color="secondary"
 					label=""
 				/>
 			</GridItem>
