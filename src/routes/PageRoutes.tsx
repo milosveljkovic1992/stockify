@@ -42,6 +42,10 @@ export const router = createBrowserRouter([
 								path: 'board',
 								element: <Board />,
 							},
+							{
+								path: 'board/:truckId',
+								element: <Board />,
+							},
 						],
 					},
 				],

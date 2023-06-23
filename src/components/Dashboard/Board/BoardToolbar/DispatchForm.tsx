@@ -6,6 +6,7 @@ import { useAppDispatch } from 'store';
 import {
 	createTruck,
 	TruckFormInput,
+	TruckType,
 	TruckTypeOptions,
 } from 'store/truck-slice';
 
@@ -13,6 +14,7 @@ import { truckOptions } from 'global/truckOptions';
 import { LocationAutocomplete } from './LocationAutocomplete';
 import { Container, SubmitButton } from './DispatchForm.styles';
 import type { City } from './Location.types';
+import { useNavigate } from 'react-router-dom';
 
 interface DispatchFormProps {
 	closeForm: (miliseconds?: number) => void;
@@ -20,6 +22,7 @@ interface DispatchFormProps {
 
 export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const [submitStatus, setSubmitStatus] = useState<
 		'idle' | 'sending' | 'success' | 'error'
 	>('idle');
@@ -66,8 +69,11 @@ export const DispatchForm = ({ closeForm }: DispatchFormProps) => {
 			truck: truckOption,
 		};
 
-		await dispatch(createTruck(truck));
+		const data = await dispatch(createTruck(truck));
+		const payload = data.payload as TruckType;
+
 		setSubmitStatus('success');
+		navigate(`${payload._id}`);
 		closeForm();
 	};
 
